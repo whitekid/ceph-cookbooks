@@ -78,6 +78,11 @@ def get_mon_addresses()
     end
 
     mons += get_mon_nodes()
+
+    if mons.empty? && node[:ceph][:config][:mon_hosts]
+      return node[:ceph][:config][:mon_hosts].map { |x| "#{x}:6789" }.uniq
+    end
+
     if is_crowbar?
       mon_ips = mons.map { |node| Chef::Recipe::Barclamp::Inventory.get_network_by_type(node, "admin").address }
     else
