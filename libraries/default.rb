@@ -9,7 +9,7 @@ def get_mon_nodes(extra_search=nil)
   if is_crowbar?
     mon_roles = search(:role, 'name:crowbar-* AND run_list:role\[ceph-mon\]')
     if not mon_roles.empty?
-      search_string = mon_roles.map { |role_object| "role:"+role_object.name }.join(' OR ')
+      search_string = mon_roles.map { |role_object| "roles:"+role_object.name }.join(' OR ')
       search_string = "(#{search_string}) AND ceph_config_environment:#{node['ceph']['config']['environment']}"
     end
   else
